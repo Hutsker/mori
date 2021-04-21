@@ -1,7 +1,9 @@
 #include "widget.h"
 #include "ui_widget.h"
+#include <string>
+#include <stdlib.h>
 
-
+int groop = 1;
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -30,8 +32,10 @@ Widget::~Widget()
 void Widget::on_comboBox_currentIndexChanged(int index)
 {
     switch(index) {
-    case 0: { ui->listWidget->clear(); break; }
+
     case 1: {
+
+        groop = 1;
 
         ui->listWidget->clear();  // Отчистка виджета
 
@@ -50,6 +54,9 @@ void Widget::on_comboBox_currentIndexChanged(int index)
 
     case 2:
     {
+
+        groop = 2;
+
         ui->listWidget->clear();
 
         QSqlQuery query("SELECT family, first_name FROM prj_group_addrbook WHERE prj_group_id = 2");
@@ -66,6 +73,8 @@ void Widget::on_comboBox_currentIndexChanged(int index)
     }
     case 3:
     {
+        groop = 3;
+
         ui->listWidget->clear();
 
         QSqlQuery query("SELECT family, first_name FROM prj_group_addrbook WHERE prj_group_id = 3");
@@ -82,6 +91,8 @@ void Widget::on_comboBox_currentIndexChanged(int index)
     }
     case 4:
     {
+        groop = 4;
+
         ui->listWidget->clear();
 
         QSqlQuery query("SELECT family, first_name FROM prj_group_addrbook WHERE prj_group_id = 4");
@@ -101,9 +112,32 @@ void Widget::on_comboBox_currentIndexChanged(int index)
     }
 }
 
+
 void Widget::on_pushButton_clicked() //Add
 {
+    if (ui -> lineEdit_2 -> text() == "") {
+        QMessageBox::information(this, tr("Error"), tr("Insert famile and first name user pls!!!"));
+        return;
+    }
 
+    QString full_name =  (ui -> lineEdit_2 -> text());
+    std::string lay1 = full_name.toStdString();
+    std::string lay2 = "";
+    std::string lay3 = "";
+    bool OK = false;
+
+    for (int i = 0; i < lay1.length(); i++) {
+        if (lay1[i] == ' ') { OK = true; }
+        if (OK == true) { lay3 += lay1[i]; }
+        else { lay2 += lay1[i]; }
+    }
+
+    std::string ss = std::to_string(groop);
+
+    std::string insert = "INSERT INTO prj_group_addrbook (addrbook_type_id, prj_group_id, family, first_name) VALUES ('1', '"+ss+"', '"+lay2+"', '"+lay3+"')" ;
+    QString str = QString::fromUtf8(insert.c_str());
+
+    QSqlQuery query (str);
 
 }
 
@@ -114,7 +148,26 @@ void Widget::on_pushButton_3_clicked() //Rename
 
 void Widget::on_pushButton_2_clicked() //Delete
 {
+    QListWidgetItem *item = ui->listWidget->item(ui->listWidget->currentRow());
 
+    QString full_name = item->text();
+    std::string lay1 = full_name.toStdString();
+    std::string lay2 = "";
+    std::string lay3 = "";
+    bool OK = false;
+
+    for (int i = 0; i < lay1.length(); i++) {
+        if (lay1[i] == ' ') { OK = true; }
+        if (OK == true) { lay3 += lay1[i]; }
+        else { lay2 += lay1[i]; }
+    }
+
+    std::string delet = "DELETE FROM prj_group_addrbook WHERE family = '"+lay2+"' or  first_name = '"+lay3+"'" ;
+    QString str = QString::fromUtf8(delet.c_str());
+
+    QSqlQuery query (str);
+
+    ui->listWidget->takeItem (ui->listWidget->currentRow());
 }
 
 void Widget::on_pushButton_4_clicked() //Search
@@ -132,8 +185,10 @@ void Widget::on_pushButton_4_clicked() //Search
 
     for (int i = 0; i < lay1.length(); i++) {
         if (lay1[i] == ' ') { OK = true; }
+        else {
         if (OK == true) { lay3 += lay1[i]; }
         else { lay2 += lay1[i]; }
+        }
     }
 
     QStringList items = full_name.split(' ');
@@ -151,7 +206,7 @@ void Widget::on_pushButton_4_clicked() //Search
         while (query.next()) {
             QString family = query.value(0).toString();
             QString first_name = query.value(1).toString();
-            ui->listWidget->addItem(family+first_name);
+            ui->listWidget->addItem(family + " " + first_name);
         }
     }
 }

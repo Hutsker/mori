@@ -29,15 +29,22 @@ public:
     QPushButton *pushButton_3;
     QPushButton *pushButton_4;
     QLineEdit *lineEdit;
+    QLineEdit *lineEdit_2;
 
     void setupUi(QWidget *Widget)
     {
         if (Widget->objectName().isEmpty())
             Widget->setObjectName(QString::fromUtf8("Widget"));
-        Widget->resize(511, 250);
+        Widget->resize(511, 284);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(Widget->sizePolicy().hasHeightForWidth());
+        Widget->setSizePolicy(sizePolicy);
+        Widget->setContextMenuPolicy(Qt::CustomContextMenu);
         listWidget = new QListWidget(Widget);
         listWidget->setObjectName(QString::fromUtf8("listWidget"));
-        listWidget->setGeometry(QRect(10, 10, 291, 201));
+        listWidget->setGeometry(QRect(10, 70, 291, 201));
         comboBox = new QComboBox(Widget);
         comboBox->addItem(QString());
         comboBox->setObjectName(QString::fromUtf8("comboBox"));
@@ -45,19 +52,24 @@ public:
         comboBox->setInsertPolicy(QComboBox::InsertAtCurrent);
         pushButton = new QPushButton(Widget);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(310, 40, 191, 21));
+        pushButton->setGeometry(QRect(230, 10, 71, 21));
+        pushButton->setAcceptDrops(false);
+        pushButton->setLayoutDirection(Qt::LeftToRight);
         pushButton_2 = new QPushButton(Widget);
         pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setGeometry(QRect(310, 100, 191, 23));
+        pushButton_2->setGeometry(QRect(310, 40, 191, 23));
         pushButton_3 = new QPushButton(Widget);
         pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
         pushButton_3->setGeometry(QRect(310, 70, 191, 23));
         pushButton_4 = new QPushButton(Widget);
         pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
-        pushButton_4->setGeometry(QRect(220, 220, 81, 21));
+        pushButton_4->setGeometry(QRect(230, 40, 71, 21));
         lineEdit = new QLineEdit(Widget);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-        lineEdit->setGeometry(QRect(10, 220, 191, 20));
+        lineEdit->setGeometry(QRect(10, 40, 211, 20));
+        lineEdit_2 = new QLineEdit(Widget);
+        lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
+        lineEdit_2->setGeometry(QRect(10, 10, 211, 20));
 
         retranslateUi(Widget);
 
